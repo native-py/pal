@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pal — image color palette extractor</title>
+  <meta name="description" content="Extract dominant colors from any image, right in your browser. Zero uploads, zero dependencies.">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230a0a0a'/%3E%3Crect x='3' y='3' width='4' height='10' fill='%23ededed'/%3E%3Crect x='9' y='3' width='4' height='10' fill='%23555555'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <span class="prompt" aria-hidden="true">$</span>
+      <h1>pal</h1>
+      <span class="caret" aria-hidden="true">▌</span>
+      <span class="hint">image → color palette, in your browser</span>
+    </header>
+
+    <main>
+      <section id="input-section" aria-label="image input">
+        <div id="dropzone" class="dropzone" role="button" tabindex="0"
+             aria-label="upload image: click to browse, drag and drop a file, or paste from clipboard">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.5" stroke-linecap="square" aria-hidden="true">
+            <path d="M12 15V4m0 0L8 8m4-4 4 4"/>
+            <path d="M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/>
+          </svg>
+          <p>drop an image here</p>
+          <p class="hint">click to browse · or paste from clipboard (ctrl+v)</p>
+        </div>
+        <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp,image/gif"
+               class="visually-hidden" tabindex="-1" aria-hidden="true">
+      </section>
+
+      <section id="workspace" hidden aria-label="controls">
+        <div class="workspace">
+          <div class="panel">
+            <p class="panel-header">preview</p>
+            <img id="preview" class="preview-img" alt="uploaded image preview">
+            <p><button id="btn-replace" class="btn btn-ghost" type="button">replace image</button></p>
+          </div>
+
+          <div class="panel">
+            <p class="panel-header">options</p>
+            <div class="control-group">
+              <label class="control-label" for="color-count">
+                colors
+                <output id="count-out" for="color-count">6</output>
+              </label>
+              <input type="range" id="color-count" class="range" min="3" max="12" step="1" value="6">
+            </div>
+
+            <div class="export-row">
+              <button id="btn-copy-css" class="btn btn-block" type="button" disabled>copy as css variables</button>
+              <button id="btn-copy-json" class="btn btn-block" type="button" disabled>copy as json</button>
+              <button id="btn-export-png" class="btn btn-block" type="button" disabled>export palette as png</button>
+            </div>
+
+            <div id="log" class="log" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="results-section" hidden aria-label="extracted palette">
+        <div class="results-header">
+          <h2>palette</h2>
+          <span id="results-meta" class="results-meta"></span>
+        </div>
+        <div id="swatches" class="swatches"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      $ pal v1.0 — everything runs locally in your browser. no uploads, no tracking.
+    </footer>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
